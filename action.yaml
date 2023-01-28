@@ -15,7 +15,11 @@ inputs:
 runs:
   using: "composite"
   steps:
-      
+    # Checkout the blog content to a specific folder
+    - uses: actions/checkout@v3
+      with:
+        path: 'blog-engine'
+
     - name: Commit wwwroot to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.4.1
       with:
