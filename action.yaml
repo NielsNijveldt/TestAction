@@ -18,7 +18,18 @@ runs:
     # Checkout the blog content to a specific folder
     - uses: actions/checkout@v3
       with:
+        path: 'blog-content'
+
+    # Checkout the wasm-blog-engine to the root folder
+    - uses: actions/checkout@v3
+      with:
+        repository: 'NielsNijveldt/TestAction'
         path: 'blog-engine'
+
+    - name: Configure git to trust the workspace despite the different owner
+      run:
+        git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      shell: bash
 
     - name: Commit wwwroot to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.4.1
@@ -27,3 +38,4 @@ runs:
         folder: '${{ github.workspace }}/blog-engine/release/wwwroot'
         repository-name: ${{ github.repository }}
         token: ${{ inputs.github_token }}
+        clean: false
