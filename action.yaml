@@ -9,9 +9,6 @@ inputs:
   blog_directory:
     description: "The directory containing your blogs (yaml), default is '_blogs'"
     default: _blogs
-  github_token:
-    description: "The GitHub token"
-    required: true
 runs:
   using: "composite"
   steps:
@@ -26,16 +23,10 @@ runs:
         repository: 'NielsNijveldt/TestAction'
         path: 'blog-engine'
 
-    - name: Configure git to trust the workspace despite the different owner
-      run:
-        git config --global --add safe.directory "${{ github.workspace }}/blog-engine"
-      shell: bash
-
     - name: Commit wwwroot to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.4.1
       with:
         branch: ${{ inputs.github_pages_branch }}
         folder: '${{ github.workspace }}/blog-engine/release/wwwroot'
         repository-name: ${{ github.repository }}
-        token: ${{ inputs.github_token }}
-        clean: false
+        workspace: '${{ github.workspace }}/blog-engine'
