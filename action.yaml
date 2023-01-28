@@ -1,0 +1,21 @@
+name: "Test Action"
+description: "Grabs your input and publishes it as GitHub Pages website"
+author: "Test"
+inputs:
+
+  github_pages_branch:
+    description: "The branch to publish the output to, default is 'gh-pages'"
+    default: gh-pages
+  blog_directory:
+    description: "The directory containing your blogs (yaml), default is '_blogs'"
+    default: _blogs
+runs:
+  using: "composite"
+  steps:
+      
+    - name: Commit wwwroot to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4.4.1
+      with:
+        branch: ${{ inputs.github_pages_branch }}
+        folder: '${{ github.workspace }}/blog-engine/release/wwwroot'
+        repository-name: ${{ github.repository }}
