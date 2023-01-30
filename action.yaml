@@ -23,7 +23,7 @@ runs:
         path: 'blog-content'
 
     - name: copy markdown files to wwwroot
-      run: cp -r ${{ github.workspace }}/blog-content/${{ inputs.blog_directory }} ${{ github.workspace }}/release/wwwroot/blogs/
+      run: cp -r ${{ github.workspace }}/blog-content/${{ inputs.blog_directory }}/* ${{ github.workspace }}/release/wwwroot/blogs/
       shell: bash
 
     - name: Commit wwwroot to GitHub Pages
