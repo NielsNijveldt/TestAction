@@ -12,19 +12,23 @@ inputs:
 runs:
   using: "composite"
   steps:
-    # Checkout the blog content to a specific folder
-    - uses: actions/checkout@v3
-      with:
-        path: 'blog-content'
-
     # Checkout the wasm-blog-engine to the root folder
     - uses: actions/checkout@v3
       with:
         repository: 'NielsNijveldt/TestAction'
 
+    # Checkout the blog content to a specific folder
+    - uses: actions/checkout@v3
+      with:
+        path: 'blog-content'
+
+    - name: copy markdown files to wwwroot
+      run: cp -r ${{ github.workspace }}/blog-content/${{ inputs.blog_directory }} /release/wwwroot/blogs/
+      shell: bash
+
     - name: Commit wwwroot to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.4.1
       with:
         branch: ${{ inputs.github_pages_branch }}
-        folder: '/release/wwwroot'
+        folder: '${{ github.workspace }}/release/wwwroot'
         repository-name: ${{ github.repository }}
